@@ -54,6 +54,7 @@ resource "ssh_resource" "runner" {
   private_key  = data.sops_file.secret_vars.data["ssh_private_key"]
 
   commands = [
+    "sudo mkfs.xfs /dev/vdb",
     "sudo mkdir -p /var/lib/docker",
     "sudo mount /dev/vdb /var/lib/docker",
     "sudo echo \"/dev/vdb /var/lib/docker ext4 defaults 0 0\" >> /etc/fstab",
