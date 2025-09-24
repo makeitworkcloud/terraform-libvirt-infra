@@ -63,7 +63,7 @@ resource "ssh_resource" "runner" {
     "sudo usermod -aG docker ${data.sops_file.secret_vars.data["ssh_user"]}",
     "sudo hostnamectl set-hostname runner",
     "mkdir actions-runner",
-    "cd actions-runner && curl -o ./actions-runner-linux-x64-2.325.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.325.0/actions-runner-linux-x64-2.325.0.tar.gz",
+    "cd actions-runner && curl -o ./actions-runner-linux-x64-2.328.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.328.0/actions-runner-linux-x64-2.328.0.tar.gz",
     "cd actions-runner && echo \"5020da7139d85c776059f351e0de8fdec753affc9c558e892472d43ebeb518f4  ./actions-runner-linux-x64-2.325.0.tar.gz\" | shasum -a 256 -c",
     "cd actions-runner && tar xzf ./actions-runner-linux-x64-2.325.0.tar.gz",
     "cd actions-runner && ./config.sh --name libvirt-${random_string.runner.result} --labels libvirt --url https://github.com/makeitworkcloud --token ${data.sops_file.secret_vars.data["github_token"]}",
