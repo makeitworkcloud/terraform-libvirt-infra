@@ -1,3 +1,4 @@
+/*
 resource "libvirt_volume" "runner" {
   name           = "runner.qcow2"
   base_volume_id = libvirt_volume.template-server.id
@@ -73,4 +74,4 @@ resource "ssh_resource" "runner" {
   ]
   depends_on = [libvirt_domain.runner]
 }
-
+*/
