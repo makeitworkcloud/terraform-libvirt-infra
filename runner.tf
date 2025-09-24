@@ -57,7 +57,7 @@ resource "ssh_resource" "runner" {
     "sudo mkfs.xfs /dev/vdb",
     "sudo mkdir -p /var/lib/docker",
     "sudo mount /dev/vdb /var/lib/docker",
-    "sudo echo \"/dev/vdb /var/lib/docker ext4 defaults 0 0\" >> /etc/fstab",
+    "sudo bash -c 'echo \"/dev/vdb /var/lib/docker ext4 defaults 0 0\" >> /etc/fstab'",
     "sudo dnf install docker -y",
     "sudo systemctl enable docker",
     "sudo usermod -aG docker ${data.sops_file.secret_vars.data["ssh_user"]}",
