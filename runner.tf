@@ -1,11 +1,10 @@
-/*
 resource "libvirt_volume" "runner" {
   name           = "runner.qcow2"
   base_volume_id = libvirt_volume.template-server.id
 }
 
-resource "libvirt_volume" "var-lib-docker" {
-  name = "var-lib-docker.qcow2"
+resource "libvirt_volume" "runner-var-lib-docker" {
+  name = "runner-var-lib-docker.qcow2"
   size = 107374182400
 }
 
@@ -21,7 +20,7 @@ resource "libvirt_domain" "runner" {
     volume_id = libvirt_volume.runner.id
   }
   disk {
-    volume_id    = libvirt_volume.var-lib-docker.id
+    volume_id    = libvirt_volume.runner-var-lib-docker.id
     block_device = "/dev/vdb"
   }
   network_interface {
@@ -40,7 +39,7 @@ resource "libvirt_domain" "runner" {
     dev = ["cdrom", "hd"]
   }
   type       = "kvm"
-  depends_on = [libvirt_volume.runner, libvirt_volume.var-lib-docker]
+  depends_on = [libvirt_volume.runner, libvirt_volume.runner-var-lib-docker]
 }
 
 resource "random_string" "runner" {
@@ -74,4 +73,3 @@ resource "ssh_resource" "runner" {
   ]
   depends_on = [libvirt_domain.runner]
 }
-*/
