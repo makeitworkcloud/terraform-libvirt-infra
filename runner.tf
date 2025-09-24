@@ -3,6 +3,11 @@ resource "libvirt_volume" "runner" {
   base_volume_id = libvirt_volume.template-server.id
 }
 
+resource "libvirt_volume" "var-lib-docker" {
+  name = "var-lib-docker.qcow2"
+  size = 107374182400
+}
+
 resource "libvirt_domain" "runner" {
   name        = "runner"
   description = "GitHub Actions self-hosted runner"
@@ -13,6 +18,10 @@ resource "libvirt_domain" "runner" {
   memory = "8192"
   disk {
     volume_id = libvirt_volume.runner.id
+  }
+  disk {
+    volume_id    = libvirt_volume.var-lib-docker.id
+    block_device = "/dev/vdb"
   }
   network_interface {
     network_name = "default"
@@ -30,7 +39,7 @@ resource "libvirt_domain" "runner" {
     dev = ["cdrom", "hd"]
   }
   type       = "kvm"
-  depends_on = [libvirt_volume.runner]
+  depends_on = [libvirt_volume.runner, libvirt_volume.var-lib-docker]
 }
 
 resource "random_string" "runner" {
@@ -45,6 +54,10 @@ resource "ssh_resource" "runner" {
   private_key  = data.sops_file.secret_vars.data["ssh_private_key"]
 
   commands = [
+    "sudo mkfs.xfs /dev/vdb",
+    "sudo mkdir -p /var/lib/docker",
+    "sudo mount /dev/vdb /var/lib/docker",
+    "sudo echo \"/dev/vdb /var/lib/docker ext4 defaults 0 0\" >> /etc/fstab",
     "sudo dnf install docker -y",
     "sudo systemctl enable docker",
     "sudo usermod -aG docker ${data.sops_file.secret_vars.data["ssh_user"]}",
