@@ -52,6 +52,7 @@ resource "ssh_resource" "runner" {
   bastion_host = data.sops_file.secret_vars.data["ssh_bastion_host"]
   user         = data.sops_file.secret_vars.data["ssh_user"]
   private_key  = data.sops_file.secret_vars.data["ssh_private_key"]
+  timeout      = "15m"
 
   commands = [
     "sudo mkfs.xfs /dev/vdb",
