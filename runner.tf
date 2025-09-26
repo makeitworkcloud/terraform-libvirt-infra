@@ -68,19 +68,36 @@ resource "libvirt_domain" "runner" {
   depends_on = [libvirt_volume.runner, libvirt_volume.runner-var-lib-docker, libvirt_cloudinit_disk.commoninit]
 }
 
+data "aap_organization" "runner_org" {
+  name       = "Default"
+  depends_on = [libvirt_domain.runner]
+}
+
+data "aap_inventory" "runner_inventory" {
+  name              = "libvirt-infra"
+  organization_name = data.aap_organization.runner_org.name
+  depends_on        = [data.aap_organization.runner_org]
+}
+
 resource "aap_host" "runner" {
   name         = "runner"
   description  = "GitHub Actions self-hosted runner"
-  inventory_id = 2
+  inventory_id = data.aap_inventory.runner_inventory.id
   enabled      = true
   variables = jsonencode({
     ansible_host            = "${data.sops_file.secret_vars.data["runner_ip_addr"]}"
     ansible_ssh_common_args = "-o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -W %h:%p ${data.sops_file.secret_vars.data["proxyhost"]}\""
   })
-  depends_on = [libvirt_domain.runner]
+  depends_on = [data.aap_inventory.runner_inventory]
+}
+
+data "aap_job_template" "configure_runner" {
+  name              = "configure_runner"
+  organization_name = data.aap_organization.runner_org.name
+  depends_on        = [data.aap_organization.runner_org]
 }
 
 resource "aap_job" "runner" {
-  job_template_id = 9
-  depends_on      = [aap_host.runner]
+  job_template_id = data.aap_job_template.configure_runner.id
+  depends_on      = [aap_host.runner, data.aap_job_template.configure_runner]
 }
