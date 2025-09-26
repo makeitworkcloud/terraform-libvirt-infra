@@ -11,15 +11,15 @@ resource "libvirt_volume" "runner-var-lib-docker" {
 }
 
 data "template_file" "meta_data" {
-  template = file("${path.module}/cloud-init/runner_meta_data.cfg")
+  template = file("${path.module}/cloud-init/runner/meta_data.cfg")
 }
 
 data "template_file" "user_data" {
-  template = file("${path.module}/cloud-init/runner_cloud_init.cfg")
+  template = file("${path.module}/cloud-init/runner/cloud_init.cfg")
 }
 
 data "template_file" "network_config" {
-  template = file("${path.module}/cloud-init/runner_network_config.cfg")
+  template = file("${path.module}/cloud-init/runner/network_config.cfg")
 }
 
 resource "libvirt_cloudinit_disk" "commoninit" {
