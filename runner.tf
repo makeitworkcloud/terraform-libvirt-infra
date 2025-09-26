@@ -47,30 +47,7 @@ resource "random_string" "runner" {
   special = false
 }
 
-resource "ssh_resource" "runner" {
-  host         = data.sops_file.secret_vars.data["ssh_host"]
-  bastion_host = data.sops_file.secret_vars.data["ssh_bastion_host"]
-  user         = data.sops_file.secret_vars.data["ssh_user"]
-  private_key  = data.sops_file.secret_vars.data["ssh_private_key"]
-  timeout      = "30m"
-
-  commands = [
-    "sudo mkfs.xfs /dev/vdb",
-    "sudo mkdir -p /var/lib/docker",
-    "sudo mount /dev/vdb /var/lib/docker",
-    "sudo bash -c 'echo \"/dev/vdb /var/lib/docker xfs defaults 0 0\" >> /etc/fstab'",
-    "sudo dnf install docker -y",
-    "sudo systemctl enable docker",
-    "sudo usermod -aG docker ${data.sops_file.secret_vars.data["ssh_user"]}",
-    "sudo hostnamectl set-hostname runner",
-    "mkdir actions-runner",
-    "cd actions-runner && curl -o ./actions-runner-linux-x64-2.328.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.328.0/actions-runner-linux-x64-2.328.0.tar.gz",
-    "cd actions-runner && echo \"01066fad3a2893e63e6ca880ae3a1fad5bf9329d60e77ee15f2b97c148c3cd4e  actions-runner-linux-x64-2.328.0.tar.gz\" | shasum -a 256 -c",
-    "cd actions-runner && tar xzf ./actions-runner-linux-x64-2.328.0.tar.gz",
-    "cd actions-runner && ./config.sh --name libvirt-${random_string.runner.result} --labels libvirt --url https://github.com/makeitworkcloud --token ${data.sops_file.secret_vars.data["github_token"]}",
-    "cd actions-runner && sudo ./svc.sh install",
-    "sudo nmcli con mod ens4 ipv4.addresses ${data.sops_file.secret_vars.data["runner_ip_addr"]}",
-    "sudo reboot"
-  ]
-  depends_on = [libvirt_domain.runner]
+resource "aap_job" "runner" {
+  job_template_id = 9
+  depends_on      = [libvirt_domain.runner]
 }
