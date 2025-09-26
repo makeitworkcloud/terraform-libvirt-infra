@@ -61,7 +61,10 @@ resource "libvirt_domain" "runner" {
   boot_device {
     dev = ["cdrom", "hd"]
   }
-  type       = "kvm"
+  type = "kvm"
+  lifecycle {
+    ignore_changes = [disk.1.block_device]
+  }
   depends_on = [libvirt_volume.runner, libvirt_volume.runner-var-lib-docker, libvirt_cloudinit_disk.commoninit]
 }
 
@@ -71,9 +74,8 @@ resource "aap_host" "runner" {
   inventory_id = 2
   enabled      = true
   variables = jsonencode({
-    ansible_host              = "${data.sops_file.secret_vars.data["runner_ip_addr"]}"
-    ansible_ssh_common_args   = "-o ProxyJump=${data.sops_file.secret_vars.data["proxyhost"]}"
-    ansible_host_key_checking = false
+    ansible_host            = "${data.sops_file.secret_vars.data["runner_ip_addr"]}"
+    ansible_ssh_common_args = "-o ProxyJump=${data.sops_file.secret_vars.data["proxyhost"]} -A"
   })
   depends_on = [libvirt_domain.runner]
 }
