@@ -1,4 +1,4 @@
-resource "libvirt_volume" "runner" {
+/*resource "libvirt_volume" "runner" {
   pool   = "default"
   source = "https://download.fedoraproject.org/pub/fedora/linux/releases/42/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-42-1.1.x86_64.qcow2"
   format = "qcow2"
@@ -65,7 +65,19 @@ resource "libvirt_domain" "runner" {
   depends_on = [libvirt_volume.runner, libvirt_volume.runner-var-lib-docker, libvirt_cloudinit_disk.commoninit]
 }
 
+resource "aap_host" "runner" {
+  name         = "runner"
+  description  = "GitHub Actions self-hosted runner"
+  inventory_id = 2
+  enabled      = true
+  variables    = jsonencode({
+    ansible_host = ${data.sops_file.secret_vars.data["runner_ip_addr"]}
+    ansible_ssh_common_args    = "-o ProxyJump=${data.sops_file.secret_vars.data["proxyhost"]}"
+  })
+  depends_on   = [libvirt_domain.runner]
+}
+
 resource "aap_job" "runner" {
   job_template_id = 9
   depends_on      = [libvirt_domain.runner]
-}
+}*/
