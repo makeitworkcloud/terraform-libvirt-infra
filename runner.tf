@@ -1,4 +1,4 @@
-resource "libvirt_volume" "runner" {
+/*resource "libvirt_volume" "runner" {
   name           = "runner.qcow2"
   base_volume_id = libvirt_volume.template-server.id
 }
@@ -42,12 +42,7 @@ resource "libvirt_domain" "runner" {
   depends_on = [libvirt_volume.runner, libvirt_volume.runner-var-lib-docker]
 }
 
-resource "random_string" "runner" {
-  length  = 4
-  special = false
-}
-
 resource "aap_job" "runner" {
   job_template_id = 9
   depends_on      = [libvirt_domain.runner]
-}
+}*/
