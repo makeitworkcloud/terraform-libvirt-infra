@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 env:
   SOPS_AGE_KEY: ${{ secrets.SOPS_AGE_KEY }}
