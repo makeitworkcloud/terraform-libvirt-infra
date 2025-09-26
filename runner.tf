@@ -3,7 +3,6 @@ resource "libvirt_volume" "runner" {
   source = "https://download.fedoraproject.org/pub/fedora/linux/releases/42/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-42-1.1.x86_64.qcow2"
   format = "qcow2"
   name   = "runner.qcow2"
-  size   = 21474836480
 }
 
 resource "libvirt_volume" "runner-var-lib-docker" {
