@@ -22,11 +22,6 @@ data "template_file" "network_config" {
   template = file("${path.module}/cloud-init/runner/network_config.cfg")
 }
 
-moved {
-  from = libvirt_cloudinit_disk.commoninit
-  to   = libvirt_cloudinit_disk.runner_commoninit
-}
-
 resource "libvirt_cloudinit_disk" "runner_commoninit" {
   name           = "runner_commoninit.iso"
   meta_data      = data.template_file.meta_data.rendered

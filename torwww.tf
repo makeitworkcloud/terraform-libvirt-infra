@@ -1,4 +1,3 @@
-/*
 resource "libvirt_volume" "torwww" {
   pool   = "default"
   source = "https://download.fedoraproject.org/pub/fedora/linux/releases/42/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-42-1.1.x86_64.qcow2"
@@ -90,4 +89,3 @@ resource "aap_job" "torwww" {
   job_template_id = data.aap_job_template.configure_torwww.id
   depends_on      = [aap_host.torwww, data.aap_job_template.configure_torwww]
 }
-*/
