@@ -1,11 +1,34 @@
 resource "libvirt_volume" "runner" {
-  name           = "runner.qcow2"
-  base_volume_id = libvirt_volume.template-server.id
+  pool   = "default"
+  source = "https://download.fedoraproject.org/pub/fedora/linux/releases/42/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-42-1.1.x86_64.qcow2"
+  format = "qcow2"
+  name   = "runner.qcow2"
+  size   = 21474836480
 }
 
 resource "libvirt_volume" "runner-var-lib-docker" {
   name = "runner-var-lib-docker.qcow2"
   size = 107374182400
+}
+
+data "template_file" "meta_data" {
+  template = file("${path.module}/runner_meta_data.cfg")
+}
+
+data "template_file" "user_data" {
+  template = file("${path.module}/runner_cloud_init.cfg")
+}
+
+data "template_file" "network_config" {
+  template = file("${path.module}/runner_network_config.cfg")
+}
+
+resource "libvirt_cloudinit_disk" "commoninit" {
+  name           = "commoninit.iso"
+  meta_data      = data.template_file.meta_data.rendered
+  user_data      = data.template_file.user_data.rendered
+  network_config = data.template_file.network_config.rendered
+  depends_on     = [data.template_file.meta_data, data.template_file.user_data, data.template_file.network_config]
 }
 
 resource "libvirt_domain" "runner" {
@@ -14,8 +37,9 @@ resource "libvirt_domain" "runner" {
   cpu {
     mode = "host-passthrough"
   }
-  vcpu   = "1"
-  memory = "8192"
+  vcpu      = "1"
+  memory    = "8192"
+  cloudinit = libvirt_cloudinit_disk.commoninit.id
   disk {
     volume_id = libvirt_volume.runner.id
   }
@@ -39,7 +63,7 @@ resource "libvirt_domain" "runner" {
     dev = ["cdrom", "hd"]
   }
   type       = "kvm"
-  depends_on = [libvirt_volume.runner, libvirt_volume.runner-var-lib-docker]
+  depends_on = [libvirt_volume.runner, libvirt_volume.runner-var-lib-docker, libvirt_cloudinit_disk.commoninit]
 }
 
 resource "aap_job" "runner" {

@@ -39,4 +39,3 @@ resource "libvirt_domain" "template-server" {
   type       = "kvm"
   depends_on = [libvirt_volume.template-server]
 }
-

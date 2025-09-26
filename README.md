@@ -13,6 +13,7 @@
 | <a name="provider_aap"></a> [aap](#provider\_aap) | n/a |
 | <a name="provider_libvirt"></a> [libvirt](#provider\_libvirt) | 0.7.6 |
 | <a name="provider_sops"></a> [sops](#provider\_sops) | n/a |
+| <a name="provider_template"></a> [template](#provider\_template) | n/a |
 
 ## Modules
 
@@ -23,12 +24,16 @@ No modules.
 | Name | Type |
 |------|------|
 | aap_job.runner | resource |
+| [libvirt_cloudinit_disk.commoninit](https://registry.terraform.io/providers/dmacvicar/libvirt/0.7.6/docs/resources/cloudinit_disk) | resource |
 | [libvirt_domain.runner](https://registry.terraform.io/providers/dmacvicar/libvirt/0.7.6/docs/resources/domain) | resource |
 | [libvirt_domain.template-server](https://registry.terraform.io/providers/dmacvicar/libvirt/0.7.6/docs/resources/domain) | resource |
 | [libvirt_volume.runner](https://registry.terraform.io/providers/dmacvicar/libvirt/0.7.6/docs/resources/volume) | resource |
 | [libvirt_volume.runner-var-lib-docker](https://registry.terraform.io/providers/dmacvicar/libvirt/0.7.6/docs/resources/volume) | resource |
 | [libvirt_volume.template-server](https://registry.terraform.io/providers/dmacvicar/libvirt/0.7.6/docs/resources/volume) | resource |
 | [sops_file.secret_vars](https://registry.terraform.io/providers/carlpett/sops/latest/docs/data-sources/file) | data source |
+| [template_file.meta_data](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
+| [template_file.network_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
+| [template_file.user_data](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 
 ## Inputs
 
