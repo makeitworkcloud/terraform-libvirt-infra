@@ -33,7 +33,7 @@ resource "libvirt_domain" "torwww" {
   }
   vcpu      = "1"
   memory    = "8192"
-  cloudinit = libvirt_cloudinit_disk.commoninit.id
+  cloudinit = libvirt_cloudinit_disk.torwww_commoninit.id
   disk {
     volume_id = libvirt_volume.torwww.id
   }
