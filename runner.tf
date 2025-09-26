@@ -1,4 +1,3 @@
-/*
 resource "libvirt_volume" "runner" {
   pool   = "default"
   source = "https://download.fedoraproject.org/pub/fedora/linux/releases/42/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-42-1.1.x86_64.qcow2"
@@ -85,4 +84,3 @@ resource "aap_job" "runner" {
   job_template_id = 9
   depends_on      = [aap_host.runner]
 }
-*/
