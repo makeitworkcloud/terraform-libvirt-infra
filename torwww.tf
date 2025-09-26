@@ -18,7 +18,7 @@ data "template_file" "torwww_network_config" {
 }
 
 resource "libvirt_cloudinit_disk" "torwww_commoninit" {
-  name           = "commoninit.iso"
+  name           = "torwww_commoninit.iso"
   meta_data      = data.template_file.torwww_meta_data.rendered
   user_data      = data.template_file.torwww_user_data.rendered
   network_config = data.template_file.torwww_network_config.rendered
