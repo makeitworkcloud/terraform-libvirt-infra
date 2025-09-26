@@ -22,8 +22,13 @@ data "template_file" "network_config" {
   template = file("${path.module}/cloud-init/runner/network_config.cfg")
 }
 
-resource "libvirt_cloudinit_disk" "commoninit" {
-  name           = "commoninit.iso"
+moved {
+  from = libvirt_cloudinit_disk.commoninit
+  to   = libvirt_cloudinit_disk.runner_commoninit
+}
+
+resource "libvirt_cloudinit_disk" "runner_commoninit" {
+  name           = "runner_commoninit.iso"
   meta_data      = data.template_file.meta_data.rendered
   user_data      = data.template_file.user_data.rendered
   network_config = data.template_file.network_config.rendered
@@ -38,7 +43,7 @@ resource "libvirt_domain" "runner" {
   }
   vcpu      = "1"
   memory    = "8192"
-  cloudinit = libvirt_cloudinit_disk.commoninit.id
+  cloudinit = libvirt_cloudinit_disk.runner_commoninit.id
   disk {
     volume_id = libvirt_volume.runner.id
   }
@@ -65,7 +70,7 @@ resource "libvirt_domain" "runner" {
   lifecycle {
     ignore_changes = [disk.1.block_device]
   }
-  depends_on = [libvirt_volume.runner, libvirt_volume.runner-var-lib-docker, libvirt_cloudinit_disk.commoninit]
+  depends_on = [libvirt_volume.runner, libvirt_volume.runner-var-lib-docker, libvirt_cloudinit_disk.runner_commoninit]
 }
 
 data "aap_organization" "runner_org" {
