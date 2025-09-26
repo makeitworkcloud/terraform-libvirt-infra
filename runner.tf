@@ -75,7 +75,7 @@ resource "aap_host" "runner" {
   enabled      = true
   variables = jsonencode({
     ansible_host            = "${data.sops_file.secret_vars.data["runner_ip_addr"]}"
-    ansible_ssh_common_args = "-o ProxyJump=${data.sops_file.secret_vars.data["proxyhost"]} -A"
+    ansible_ssh_common_args = "-o ProxyCommand=\"ssh -W %h:%p -q ${data.sops_file.secret_vars.data["proxyhost"]}\""
   })
   depends_on = [libvirt_domain.runner]
 }
