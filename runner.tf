@@ -1,4 +1,4 @@
-/*resource "libvirt_volume" "runner" {
+resource "libvirt_volume" "runner" {
   name           = "runner.qcow2"
   base_volume_id = libvirt_volume.template-server.id
 }
@@ -45,4 +45,4 @@ resource "libvirt_domain" "runner" {
 resource "aap_job" "runner" {
   job_template_id = 9
   depends_on      = [libvirt_domain.runner]
-}*/
+}
