@@ -1,3 +1,4 @@
+/*
 resource "libvirt_volume" "runner" {
   pool   = "default"
   source = "https://download.fedoraproject.org/pub/fedora/linux/releases/42/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-42-1.1.x86_64.qcow2"
@@ -11,15 +12,15 @@ resource "libvirt_volume" "runner-var-lib-docker" {
 }
 
 data "template_file" "meta_data" {
-  template = file("${path.module}/runner_meta_data.cfg")
+  template = file("${path.module}/cloud-init/runner_meta_data.cfg")
 }
 
 data "template_file" "user_data" {
-  template = file("${path.module}/runner_cloud_init.cfg")
+  template = file("${path.module}/cloud-init/runner_cloud_init.cfg")
 }
 
 data "template_file" "network_config" {
-  template = file("${path.module}/runner_network_config.cfg")
+  template = file("${path.module}/cloud-init/runner_network_config.cfg")
 }
 
 resource "libvirt_cloudinit_disk" "commoninit" {
@@ -84,3 +85,4 @@ resource "aap_job" "runner" {
   job_template_id = 9
   depends_on      = [aap_host.runner]
 }
+*/
