@@ -20,7 +20,7 @@ module "runner" {
   cloudinit_meta_data_template      = file("${path.module}/cloud-init/meta_data.cfg")
   cloudinit_meta_data_vars          = { hostname = "runner" }
   cloudinit_user_data_template      = file("${path.module}/cloud-init/runner/cloud_init.cfg")
-  cloudinit_user_data_vars          = {}
+  cloudinit_user_data_vars          = { ssh_authorized_key = data.sops_file.secret_vars.data["ssh_admin_pubkey"] }
   cloudinit_network_config_template = file("${path.module}/cloud-init/network_config.cfg")
   cloudinit_network_config_vars     = { private_ip_addr = data.sops_file.secret_vars.data["runner_ip_addr"] }
   hostname                          = "runner"
@@ -44,7 +44,7 @@ module "torwww" {
   cloudinit_meta_data_template      = file("${path.module}/cloud-init/meta_data.cfg")
   cloudinit_meta_data_vars          = { hostname = "torwww" }
   cloudinit_user_data_template      = file("${path.module}/cloud-init/torwww/cloud_init.cfg")
-  cloudinit_user_data_vars          = {}
+  cloudinit_user_data_vars          = { ssh_authorized_key = data.sops_file.secret_vars.data["ssh_admin_pubkey"] }
   cloudinit_network_config_template = file("${path.module}/cloud-init/network_config.cfg")
   cloudinit_network_config_vars     = { private_ip_addr = data.sops_file.secret_vars.data["torwww_ip_addr"] }
   hostname                          = "torwww"
