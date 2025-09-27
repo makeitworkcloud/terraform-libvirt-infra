@@ -48,10 +48,10 @@ resource "libvirt_domain" "vm" {
   }
 
   dynamic "disk" {
-    for_each = libvirt_volume.extra[*]
+    for_each = libvirt_volume.extra
     content {
       volume_id    = disk.value.id
-      block_device = var.extra_volumes[index(disk.key, libvirt_volume.extra[*].id)].block_device
+      block_device = var.extra_volumes[disk.key].block_device
     }
   }
 
