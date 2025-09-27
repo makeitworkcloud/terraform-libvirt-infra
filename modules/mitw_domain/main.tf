@@ -55,6 +55,10 @@ resource "libvirt_domain" "vm" {
     }
   }
 
+  lifecycle {
+    ignore_changes = [disk]
+  }
+
   network_interface {
     network_name = "default"
   }
