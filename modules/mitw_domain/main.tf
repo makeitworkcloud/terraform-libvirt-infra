@@ -1,7 +1,7 @@
 resource "libvirt_volume" "boot" {
   source = var.boot_image_url
   format = "qcow2"
-  name   = var.boot_image_name
+  name   = "${var.name}.qcow2"
 }
 
 resource "libvirt_volume" "extra" {

@@ -27,11 +27,6 @@ variable "boot_image_url" {
   default     = "https://download.fedoraproject.org/pub/fedora/linux/releases/42/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-42-1.1.x86_64.qcow2"
 }
 
-variable "boot_image_name" {
-  description = "Name for the boot disk volume created from the QCOW2 image."
-  type        = string
-}
-
 variable "extra_volumes" {
   description = <<EOF
 List of additional volumes to attach to the domain. Each object should contain:

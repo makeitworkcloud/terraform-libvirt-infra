@@ -3,11 +3,10 @@ data "sops_file" "secret_vars" {
 }
 
 module "runner" {
-  source          = "./modules/mitw_domain"
-  name            = "runner"
-  description     = "GitHub Actions self-hosted runner"
-  memory          = 8192
-  boot_image_name = "runner.qcow2"
+  source      = "./modules/mitw_domain"
+  name        = "runner"
+  description = "GitHub Actions self-hosted runner"
+  memory      = 8192
   extra_volumes = [
     {
       name         = "runner-var-lib-docker.qcow2"
@@ -32,7 +31,6 @@ module "torwww" {
   name                              = "torwww"
   description                       = "Tor hidden service web mirror"
   memory                            = 4096
-  boot_image_name                   = "torwww.qcow2"
   cloudinit_meta_data_template      = file("${path.module}/cloud-init/meta_data.cfg")
   cloudinit_meta_data_vars          = { hostname = "torwww" }
   cloudinit_user_data_template      = file("${path.module}/cloud-init/torwww/cloud_init.cfg")
