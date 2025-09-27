@@ -10,43 +10,20 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aap"></a> [aap](#provider\_aap) | n/a |
-| <a name="provider_libvirt"></a> [libvirt](#provider\_libvirt) | 0.7.6 |
 | <a name="provider_sops"></a> [sops](#provider\_sops) | n/a |
-| <a name="provider_template"></a> [template](#provider\_template) | n/a |
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_runner"></a> [runner](#module\_runner) | ./modules/mitw_domain | n/a |
+| <a name="module_torwww"></a> [torwww](#module\_torwww) | ./modules/mitw_domain | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| aap_host.runner | resource |
-| aap_host.torwww | resource |
-| aap_job.runner | resource |
-| aap_job.torwww | resource |
-| [libvirt_cloudinit_disk.runner_commoninit](https://registry.terraform.io/providers/dmacvicar/libvirt/0.7.6/docs/resources/cloudinit_disk) | resource |
-| [libvirt_cloudinit_disk.torwww_commoninit](https://registry.terraform.io/providers/dmacvicar/libvirt/0.7.6/docs/resources/cloudinit_disk) | resource |
-| [libvirt_domain.runner](https://registry.terraform.io/providers/dmacvicar/libvirt/0.7.6/docs/resources/domain) | resource |
-| [libvirt_domain.torwww](https://registry.terraform.io/providers/dmacvicar/libvirt/0.7.6/docs/resources/domain) | resource |
-| [libvirt_volume.runner](https://registry.terraform.io/providers/dmacvicar/libvirt/0.7.6/docs/resources/volume) | resource |
-| [libvirt_volume.runner-var-lib-docker](https://registry.terraform.io/providers/dmacvicar/libvirt/0.7.6/docs/resources/volume) | resource |
-| [libvirt_volume.torwww](https://registry.terraform.io/providers/dmacvicar/libvirt/0.7.6/docs/resources/volume) | resource |
-| aap_inventory.runner_inventory | data source |
-| aap_inventory.torwww_inventory | data source |
-| aap_job_template.configure_runner | data source |
-| aap_job_template.configure_torwww | data source |
-| aap_organization.runner_org | data source |
-| aap_organization.torwww_org | data source |
 | [sops_file.secret_vars](https://registry.terraform.io/providers/carlpett/sops/latest/docs/data-sources/file) | data source |
-| [template_file.meta_data](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
-| [template_file.network_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
-| [template_file.torwww_meta_data](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
-| [template_file.torwww_network_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
-| [template_file.torwww_user_data](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
-| [template_file.user_data](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 
 ## Inputs
 
