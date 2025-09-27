@@ -109,6 +109,7 @@ variable "aap_inventory_name" {
 }
 
 variable "aap_job_template_name" {
-  description = "Name of the AAP job template to run."
+  description = "Name of the AAP job template to run.  If left empty, will default to configure_<name>"
   type        = string
+  default     = ""
 }

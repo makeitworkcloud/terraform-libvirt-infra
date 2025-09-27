@@ -23,7 +23,6 @@ module "runner" {
   private_ip_addr                   = data.sops_file.secret_vars.data["runner_ip_addr"]
   proxyhost                         = data.sops_file.secret_vars.data["proxyhost"]
   enable_aap                        = true
-  aap_job_template_name             = "configure_runner"
 }
 
 module "torwww" {
@@ -40,5 +39,4 @@ module "torwww" {
   private_ip_addr                   = data.sops_file.secret_vars.data["torwww_ip_addr"]
   proxyhost                         = data.sops_file.secret_vars.data["proxyhost"]
   enable_aap                        = true
-  aap_job_template_name             = "configure_torwww"
 }

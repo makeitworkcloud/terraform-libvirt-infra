@@ -106,7 +106,7 @@ resource "aap_host" "host" {
 
 data "aap_job_template" "job_template" {
   count             = var.enable_aap ? 1 : 0
-  name              = var.aap_job_template_name
+  name              = var.aap_job_template_name != "" ? var.aap_job_template_name : "configure_${var.name}"
   organization_name = data.aap_organization.org[0].name
   depends_on        = [data.aap_organization.org]
 }
