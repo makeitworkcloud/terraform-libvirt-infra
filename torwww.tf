@@ -6,7 +6,10 @@ resource "libvirt_volume" "torwww" {
 }
 
 data "template_file" "torwww_meta_data" {
-  template = file("${path.module}/cloud-init/torwww/meta_data.cfg")
+  template = file("${path.module}/cloud-init/meta_data.cfg")
+  vars = {
+    hostname = "torwww"
+  }
 }
 
 data "template_file" "torwww_user_data" {
@@ -14,7 +17,10 @@ data "template_file" "torwww_user_data" {
 }
 
 data "template_file" "torwww_network_config" {
-  template = file("${path.module}/cloud-init/torwww/network_config.cfg")
+  template = file("${path.module}/cloud-init/network_config.cfg")
+  vars = {
+    private_ip_addr = data.sops_file.secret_vars.data["torwww_ip_addr"]
+  }
 }
 
 resource "libvirt_cloudinit_disk" "torwww_commoninit" {

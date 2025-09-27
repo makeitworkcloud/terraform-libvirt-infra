@@ -11,7 +11,10 @@ resource "libvirt_volume" "runner-var-lib-docker" {
 }
 
 data "template_file" "meta_data" {
-  template = file("${path.module}/cloud-init/runner/meta_data.cfg")
+  template = file("${path.module}/cloud-init/meta_data.cfg")
+  vars = {
+    hostname = "runner"
+  }
 }
 
 data "template_file" "user_data" {
@@ -19,7 +22,10 @@ data "template_file" "user_data" {
 }
 
 data "template_file" "network_config" {
-  template = file("${path.module}/cloud-init/runner/network_config.cfg")
+  template = file("${path.module}/cloud-init/network_config.cfg")
+  vars = {
+    private_ip_addr = data.sops_file.secret_vars.data["runner_ip_addr"]
+  }
 }
 
 resource "libvirt_cloudinit_disk" "runner_commoninit" {
